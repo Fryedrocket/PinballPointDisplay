@@ -1,5 +1,5 @@
 /*
-
+Made by: Connor Hutcheson 12/11/2022
 */
 int DataPin = 2;
 int LatchPin = 3;
