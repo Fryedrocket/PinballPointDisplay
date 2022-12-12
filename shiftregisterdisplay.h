@@ -28,7 +28,7 @@ private:
   int ClockPin;
   int LatchPin;
 public:
-  shiftregisterdisplay(int numberOfDisplays, char segmentOrder[8], int DataPin, int ClockPin, int LatchPin);
+  shiftregisterdisplay(int numberOfDisplays, int DataPin, int ClockPin, int LatchPin);
 
   void displayNumber(unsigned long displayNumber);
 
