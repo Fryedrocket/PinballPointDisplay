@@ -2,9 +2,8 @@
 
 #include "shiftregisterdisplay.h"
 
-shiftregisterdisplay::shiftregisterdisplay(int numberOfDisplays, char segmentOrder[8], int DataPin, int ClockPin, int LatchPin) {
+shiftregisterdisplay::shiftregisterdisplay(int numberOfDisplays, int DataPin, int ClockPin, int LatchPin) {
   this->numberOfDisplays = numberOfDisplays;
-  this->segmentOrder[8] = segmentOrder[8];
   this->DataPin = DataPin;
   this->ClockPin = ClockPin;
   this->LatchPin = LatchPin;
@@ -17,14 +16,16 @@ shiftregisterdisplay::shiftregisterdisplay(int numberOfDisplays, char segmentOrd
 }
 
 void shiftregisterdisplay::displayNumber(unsigned long displayNumber) {
-  digitalWrite(LatchPin, LOW);
+  //digitalWrite(LatchPin, LOW);
   for (int i = 1; displayNumber % i != displayNumber; i *= 10) {
-    shiftOut(DataPin, ClockPin, LSBFIRST, number[i]);
-    Serial.println("Displayed ");
-    Serial.print(number[i], HEX);
-    Serial.println((displayNumber % (i * 10) - displayNumber % (i)) / i);
+    digitalWrite(LatchPin, LOW);      
+    delay(500);
+    shiftOut(DataPin, ClockPin, LSBFIRST, number[(displayNumber % (i * 10) - displayNumber % (i)) / i]);
+    Serial.println("Displayed: ");
+    Serial.print((displayNumber % (i * 10) - displayNumber % (i)) / i);
+    digitalWrite(LatchPin, HIGH);
   }
-  digitalWrite(LatchPin, HIGH);
+  //digitalWrite(LatchPin, HIGH);
 }
 
 void shiftregisterdisplay::changeSegmentOrder(char segmentOrder[8]) {
@@ -48,7 +49,6 @@ void shiftregisterdisplay::changeSegmentOrder(char segmentOrder[8]) {
   number[0] |= segments[2];  //C
   number[0] |= segments[3];  //D
   number[0] |= segments[4];  //E
-  number[0] |= segments[6];  //G
   // number one
   number[1] |= segments[1];  //B
   number[1] |= segments[2];  //C
@@ -99,5 +99,5 @@ void shiftregisterdisplay::changeSegmentOrder(char segmentOrder[8]) {
   number[9] |= segments[2];  //C
   number[9] |= segments[3];  //D
   number[9] |= segments[5];  //F
-  number[9] |= segments[6];  //G  
+  number[9] |= segments[6];  //G
 }
