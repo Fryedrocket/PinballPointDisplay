@@ -9,7 +9,7 @@ int NumberOfDisplays = 1;
 
 
 
-#include <shiftregisterdisplay.h>
+#include "shiftregisterdisplay.h"
 
 shiftregisterdisplay display = shiftregisterdisplay(NumberOfDisplays, DataPin, ClockPin, LatchPin);
 /*
@@ -73,3 +73,14 @@ void loop() {
 }
 
 
+// void shiftNum(int dpin, int cpin, int lpin, long num) {
+//   for (long i = 1; num % i != num; i *= 10) {
+//     delay(250);
+//     digitalWrite(lpin, LOW);
+//     shiftOut(dpin, cpin, LSBFIRST, nums[i]);
+//     digitalWrite(lpin, HIGH);
+//     Serial.println("Displayed: ");
+//     Serial.print(nums[i], BIN);
+//     Serial.println((num % (i * 10) - num % (i)) / i);
+//   }
+// }
