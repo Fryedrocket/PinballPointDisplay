@@ -5,6 +5,8 @@ int DataPin = 2;
 int LatchPin = 3;
 int ClockPin = 4;
 
+
+
 /*
   7 segment display segment layout:
   |-------------|
