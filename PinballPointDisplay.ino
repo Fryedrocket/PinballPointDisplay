@@ -4,14 +4,6 @@ Made by: Connor Hutcheson 12/11/2022
 int DataPin = 2;
 int LatchPin = 3;
 int ClockPin = 4;
-int NumberOfDisplays = 1;
-
-
-
-
-#include "shiftregisterdisplay.h"
-
-shiftregisterdisplay display = shiftregisterdisplay(NumberOfDisplays, DataPin, ClockPin, LatchPin);
 /*
   7 segment display segment layout:
   |-------------|
@@ -39,8 +31,6 @@ byte nums[] = { B01110111,
                 B00110100,
                 B11110111,
                 B11110110 };
-                
-char i[8] = { 'G', 'F', 'A', 'B', 'DP', 'C', 'D', 'E' };
 
 //each number individually
 byte _0 = B01110111;
@@ -65,22 +55,19 @@ void setup() {
   //Serial.println((num%100 - num%10)/10);
   //Serial.println((num%1000 - num%100)/100);
   delay(1000);
-  display.changeSegmentOrder(i[8]);
-  display.displayNumber(29503);
-}
 
 void loop() {
 }
 
 
-// void shiftNum(int dpin, int cpin, int lpin, long num) {
-//   for (long i = 1; num % i != num; i *= 10) {
-//     delay(250);
-//     digitalWrite(lpin, LOW);
-//     shiftOut(dpin, cpin, LSBFIRST, nums[i]);
-//     digitalWrite(lpin, HIGH);
-//     Serial.println("Displayed: ");
-//     Serial.print(nums[i], BIN);
-//     Serial.println((num % (i * 10) - num % (i)) / i);
-//   }
-// }
+void shiftNum(int dpin, int cpin, int lpin, long num) {
+  for (long i = 1; num % i != num; i *= 10) {
+    delay(250);
+    digitalWrite(lpin, LOW);
+    shiftOut(dpin, cpin, LSBFIRST, nums[i]);
+    digitalWrite(lpin, HIGH);
+    Serial.println("Displayed: ");
+    Serial.print(nums[i], BIN);
+    Serial.println((num % (i * 10) - num % (i)) / i);
+  }
+}
