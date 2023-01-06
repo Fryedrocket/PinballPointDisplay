@@ -4,6 +4,7 @@ Made by: Connor Hutcheson 12/11/2022
 int DataPin = 2;
 int LatchPin = 3;
 int ClockPin = 4;
+int NumberOfDisplays = 3;
 /*
   7 segment display segment layout:
   |-------------|
@@ -44,7 +45,7 @@ byte _7 = B00110100;
 byte _8 = B11110111;
 byte _9 = B11110110;
 
-long numw = 59209;
+
 
 void setup() {
   pinMode(LatchPin, OUTPUT);
@@ -54,20 +55,28 @@ void setup() {
   //Serial.println((num%10 - num%1)/1);
   //Serial.println((num%100 - num%10)/10);
   //Serial.println((num%1000 - num%100)/100);
-  delay(1000);
-
-void loop() {
+  
 }
 
+void loop() {
+  shiftNum(97);
+}
 
-void shiftNum(int dpin, int cpin, int lpin, long num) {
+void shiftNum(uint32_t num) {
+  digitalWrite(LatchPin, LOW);
+  int d = 0;
   for (long i = 1; num % i != num; i *= 10) {
-    delay(250);
-    digitalWrite(lpin, LOW);
-    shiftOut(dpin, cpin, LSBFIRST, nums[i]);
-    digitalWrite(lpin, HIGH);
-    Serial.println("Displayed: ");
+    d++;
+    shiftOut(DataPin, ClockPin, LSBFIRST, nums[(num % (i * 10) - num % (i)) / i]);
+    Serial.print("Displayed: ");
     Serial.print(nums[i], BIN);
+    Serial.println("");
     Serial.println((num % (i * 10) - num % (i)) / i);
   }
+  if(d < NumberOfDisplays){
+    for(int i = NumberOfDisplays - d; i > 0; i--){
+      shiftOut(DataPin, ClockPin, LSBFIRST, nums[0]);
+    }
+  }
+  digitalWrite(LatchPin, HIGH);
 }
