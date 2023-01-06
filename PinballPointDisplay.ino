@@ -55,7 +55,6 @@ void setup() {
   //Serial.println((num%10 - num%1)/1);
   //Serial.println((num%100 - num%10)/10);
   //Serial.println((num%1000 - num%100)/100);
-  
 }
 
 void loop() {
@@ -73,8 +72,8 @@ void shiftNum(uint32_t num) {
     Serial.println("");
     Serial.println((num % (i * 10) - num % (i)) / i);
   }
-  if(d < NumberOfDisplays){
-    for(int i = NumberOfDisplays - d; i > 0; i--){
+  if (d < NumberOfDisplays) {
+    for (int i = NumberOfDisplays - d; i > 0; i--) {
       shiftOut(DataPin, ClockPin, LSBFIRST, nums[0]);
     }
   }
