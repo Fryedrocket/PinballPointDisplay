@@ -3,6 +3,8 @@ int LatchPin = 9;
 int ClockPin = 10;
 int NumberOfDisplays = 3;
 
+#include "Edgedetection.h"
+
 
 byte nums[] = { B01110111,
                 B00010100,
@@ -30,9 +32,14 @@ byte _9 = B11110110;
 
 int count = 0;
 
+bool laststate1 = false;  // false = low; high = true;
+bool laststate2 = false;  // false = low; high = true;
+
 void setup() {
   pinMode(3, INPUT);
   pinMode(4, OUTPUT);
+  pinMode(5, INPUT);
+  pinMode(6, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
 
   pinMode(LatchPin, OUTPUT);
@@ -42,20 +49,39 @@ void setup() {
   //Serial.println((num%10 - num%1)/1);
   //Serial.println((num%100 - num%10)/10);
   //Serial.println((num%1000 - num%100)/100);
-
 }
 
 void loop() {
-  int pinstate = digitalRead(3);
-  if(pinstate == HIGH){
-    digitalWrite(4, HIGH);
-    digitalWrite(LED_BUILTIN, HIGH);
-    count++;
-    shiftNum(count);
-  }else{
-    digitalWrite(4, LOW);
-    digitalWrite(LED_BUILTIN, LOW);
-  }
+  // int pinstate1 = digitalRead(3);
+  // if (pinstate1 == HIGH) {
+  //   digitalWrite(4, HIGH);
+  //   digitalWrite(LED_BUILTIN, HIGH);
+  //   if (laststate1 == false) {
+  //     count++;
+  //     shiftNum(count);
+  //     laststate1 = true;
+  //   }
+  // } else {
+  //   digitalWrite(4, LOW);
+  //   digitalWrite(LED_BUILTIN, LOW);
+  //   laststate1 = false;
+  // }
+  // int pinstate2 = digitalRead(5);
+  // if (pinstate2 == HIGH) {
+  //   digitalWrite(6, HIGH);
+  //   digitalWrite(LED_BUILTIN, HIGH);
+  //   if (laststate2 == false) {
+  //     count++;
+  //     shiftNum(count);
+  //     laststate2 = true;
+  //   }
+  // } else {
+  //   digitalWrite(6, LOW);
+  //   digitalWrite(LED_BUILTIN, LOW);
+  //   laststate2 = false;
+  // }
+
+  //pinDetection(3, RISING_EDGE);
 }
 
 
