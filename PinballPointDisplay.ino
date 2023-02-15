@@ -1,27 +1,9 @@
-/*
-Made by: Connor Hutcheson 12/11/2022
-*/
-int DataPin = 2;
-int LatchPin = 3;
-int ClockPin = 4;
+int DataPin = 8;
+int LatchPin = 9;
+int ClockPin = 10;
 int NumberOfDisplays = 3;
-/*
-  7 segment display segment layout:
-  |-------------|
-  |      A      |
-  |             |
-  |F           B|
-  |             |
-  |      G      |
-  |E           C|
-  |             |
-  |      D      |
-  |           DP|
-  |-------------|
 
-*/
-//Segments: G,F,A,B,DP,C,D,E
-//list of all the numbers
+
 byte nums[] = { B01110111,
                 B00010100,
                 B10110011,
@@ -46,8 +28,13 @@ byte _8 = B11110111;
 byte _9 = B11110110;
 
 
+int count = 0;
 
 void setup() {
+  pinMode(3, INPUT);
+  pinMode(4, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
+
   pinMode(LatchPin, OUTPUT);
   pinMode(DataPin, OUTPUT);
   pinMode(ClockPin, OUTPUT);
@@ -55,11 +42,22 @@ void setup() {
   //Serial.println((num%10 - num%1)/1);
   //Serial.println((num%100 - num%10)/10);
   //Serial.println((num%1000 - num%100)/100);
+
 }
 
 void loop() {
-  shiftNum(97);
+  int pinstate = digitalRead(3);
+  if(pinstate == HIGH){
+    digitalWrite(4, HIGH);
+    digitalWrite(LED_BUILTIN, HIGH);
+    count++;
+    shiftNum(count);
+  }else{
+    digitalWrite(4, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
+  }
 }
+
 
 void shiftNum(uint32_t num) {
   digitalWrite(LatchPin, LOW);
