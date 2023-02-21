@@ -5,8 +5,8 @@ typedef enum {
     change
 } MODE;
 
-int state, laststate;
-bool pinDetection(int pin, MODE mode) {
+uint8_t state, laststate;
+bool pinDetection(uint8_t pin, MODE mode) {
     laststate = state;
     state = digitalRead(pin);
     if (mode == rising_edge) {

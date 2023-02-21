@@ -52,36 +52,28 @@ void setup() {
 }
 
 void loop() {
-  // int pinstate1 = digitalRead(3);
-  // if (pinstate1 == HIGH) {
-  //   digitalWrite(4, HIGH);
-  //   digitalWrite(LED_BUILTIN, HIGH);
-  //   if (laststate1 == false) {
-  //     count++;
-  //     shiftNum(count);
-  //     laststate1 = true;
-  //   }
-  // } else {
-  //   digitalWrite(4, LOW);
-  //   digitalWrite(LED_BUILTIN, LOW);
-  //   laststate1 = false;
-  // }
-  // int pinstate2 = digitalRead(5);
-  // if (pinstate2 == HIGH) {
+  int s1 = digitalRead(3);
+  int s2 = digitalRead(5);
+
+  if(pinDetection(3,rising_edge)){count++; shiftNum(count);}
+
+  if(pinDetection(5,rising_edge)){count++; shiftNum(count);}
+
+  
+  if(s1 == HIGH){
+    digitalWrite(4, HIGH);
+    digitalWrite(LED_BUILTIN, HIGH);
+  }else {
+    digitalWrite(4, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+  // if(s2 == HIGH){
   //   digitalWrite(6, HIGH);
   //   digitalWrite(LED_BUILTIN, HIGH);
-  //   if (laststate2 == false) {
-  //     count++;
-  //     shiftNum(count);
-  //     laststate2 = true;
-  //   }
-  // } else {
+  // }else {
   //   digitalWrite(6, LOW);
   //   digitalWrite(LED_BUILTIN, LOW);
-  //   laststate2 = false;
   // }
-
-  //pinDetection(3, RISING_EDGE);
 }
 
 
