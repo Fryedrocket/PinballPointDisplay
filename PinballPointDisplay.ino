@@ -30,7 +30,7 @@ byte _8 = B11110111;
 byte _9 = B11110110;
 
 
-int count = 0;
+int count = 32;
 
 bool laststate1 = false;  // false = low; high = true;
 bool laststate2 = false;  // false = low; high = true;
@@ -55,25 +55,18 @@ void loop() {
   int s1 = digitalRead(3);
   int s2 = digitalRead(5);
 
-  if(pinDetection(3,rising_edge)){count++; shiftNum(count);}
+  if(pinDetection(3,rising_edge)){count++; shiftNum(count); digitalWrite(LED_BUILTIN, HIGH);}else{digitalWrite(LED_BUILTIN, LOW);}
 
-  if(pinDetection(5,rising_edge)){count++; shiftNum(count);}
+  if(pinDetection(5,rising_edge)){count++; shiftNum(count); digitalWrite(LED_BUILTIN, HIGH);}else{digitalWrite(LED_BUILTIN, LOW);}
 
   
-  if(s1 == HIGH){
+  if(s1 == HIGH || s2 == HIGH){
     digitalWrite(4, HIGH);
-    digitalWrite(LED_BUILTIN, HIGH);
+    //digitalWrite(LED_BUILTIN, HIGH);
   }else {
     digitalWrite(4, LOW);
-    digitalWrite(LED_BUILTIN, LOW);
+    //digitalWrite(LED_BUILTIN, LOW);
   }
-  // if(s2 == HIGH){
-  //   digitalWrite(6, HIGH);
-  //   digitalWrite(LED_BUILTIN, HIGH);
-  // }else {
-  //   digitalWrite(6, LOW);
-  //   digitalWrite(LED_BUILTIN, LOW);
-  // }
 }
 
 
