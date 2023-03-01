@@ -5,6 +5,10 @@ int NumberOfDisplays = 3;
 
 #include "Edgedetection.h"
 
+#define sol1 4
+#define sol2 6
+#define sol3 8
+
 
 byte nums[] = { B01110111,
                 B00010100,
@@ -30,10 +34,37 @@ byte _8 = B11110111;
 byte _9 = B11110110;
 
 
-int count = 32;
+uint32_t count = 0;
 
 bool laststate1 = false;  // false = low; high = true;
 bool laststate2 = false;  // false = low; high = true;
+void ledON();
+void ledOff();
+void ledOn(){
+  digitalWrite(LED_BUILTIN, HIGH);
+}
+void ledOff(){
+  digitalWrite(LED_BUILTIN, LOW);
+}
+
+// void activateSolenoid(uint8_t triggerPin, uint8_t solenoidPin) {
+//   if (triggerPin == HIGH) {
+//     digitalWrite(solenoidPin, HIGH);
+//   } else {
+//     digitalWrite(solenoidPin, LOW);
+//   }
+// }
+
+void activateSolenoid(uint8_t triggerPin, uint8_t solenoidPin, void (*)(), void (*)());
+void activateSolenoid(uint8_t triggerPin, uint8_t solenoidPin, void (*onFunc)(), void (*offFunc)()) {
+  if (triggerPin == HIGH) {
+    digitalWrite(solenoidPin, HIGH);
+    (*onFunc)();
+  } else {
+    digitalWrite(solenoidPin, LOW);
+    (*offFunc)();
+  }
+}
 
 void setup() {
   pinMode(3, INPUT);
@@ -55,18 +86,7 @@ void loop() {
   int s1 = digitalRead(3);
   int s2 = digitalRead(5);
 
-  if(pinDetection(3,rising_edge)){count++; shiftNum(count); digitalWrite(LED_BUILTIN, HIGH);}else{digitalWrite(LED_BUILTIN, LOW);}
-
-  if(pinDetection(5,rising_edge)){count++; shiftNum(count); digitalWrite(LED_BUILTIN, HIGH);}else{digitalWrite(LED_BUILTIN, LOW);}
-
-  
-  if(s1 == HIGH || s2 == HIGH){
-    digitalWrite(4, HIGH);
-    //digitalWrite(LED_BUILTIN, HIGH);
-  }else {
-    digitalWrite(4, LOW);
-    //digitalWrite(LED_BUILTIN, LOW);
-  }
+  activateSolenoid(s1, sol1, ledON, ledOff);
 }
 
 
@@ -88,3 +108,4 @@ void shiftNum(uint32_t num) {
   }
   digitalWrite(LatchPin, HIGH);
 }
+
