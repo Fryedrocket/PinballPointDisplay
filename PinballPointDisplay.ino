@@ -36,36 +36,21 @@ byte _9 = B11110110;
 
 uint32_t count = 0;
 
+int s1, s2;
+
 bool laststate1 = false;  // false = low; high = true;
 bool laststate2 = false;  // false = low; high = true;
-void ledON();
-void ledOff();
-void ledOn(){
-  digitalWrite(LED_BUILTIN, HIGH);
-}
-void ledOff(){
-  digitalWrite(LED_BUILTIN, LOW);
-}
 
-// void activateSolenoid(uint8_t triggerPin, uint8_t solenoidPin) {
-//   if (triggerPin == HIGH) {
-//     digitalWrite(solenoidPin, HIGH);
-//   } else {
-//     digitalWrite(solenoidPin, LOW);
-//   }
-// }
 
-void activateSolenoid(uint8_t triggerPin, uint8_t solenoidPin, void (*)(), void (*)());
-void activateSolenoid(uint8_t triggerPin, uint8_t solenoidPin, void (*onFunc)(), void (*offFunc)()) {
+void activateSolenoid(uint8_t triggerPin, uint8_t solenoidPin) {
   if (triggerPin == HIGH) {
     digitalWrite(solenoidPin, HIGH);
-    (*onFunc)();
+    digitalWrite(LED_BUILTIN, HIGH);
   } else {
     digitalWrite(solenoidPin, LOW);
-    (*offFunc)();
+    digitalWrite(LED_BUILTIN, LOW);
   }
 }
-
 void setup() {
   pinMode(3, INPUT);
   pinMode(4, OUTPUT);
@@ -77,19 +62,30 @@ void setup() {
   pinMode(DataPin, OUTPUT);
   pinMode(ClockPin, OUTPUT);
   Serial.begin(9600);
+  shiftNum(0);
   //Serial.println((num%10 - num%1)/1);
   //Serial.println((num%100 - num%10)/10);
   //Serial.println((num%1000 - num%100)/100);
 }
 
 void loop() {
-  int s1 = digitalRead(3);
-  int s2 = digitalRead(5);
+  s1 = digitalRead(3);
+  s2 = digitalRead(5);
 
-  activateSolenoid(s1, sol1, ledON, ledOff);
+  activateSolenoid(s1, sol1);
+  activateSolenoid(s2, sol2);
+  if(s1 == HIGH &&s1 != laststate1){
+    count++;
+    shiftNum(count);
+  }
+  if(s2 == HIGH &&s1 != laststate2){
+    count++;
+    shiftNum(count);
+  }
+  
+  laststate1 = s1;
+  laststate2 = s2;
 }
-
-
 void shiftNum(uint32_t num) {
   digitalWrite(LatchPin, LOW);
   int d = 0;
