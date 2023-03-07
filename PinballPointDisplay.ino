@@ -74,15 +74,15 @@ void loop() {
 
   activateSolenoid(s1, sol1);
   activateSolenoid(s2, sol2);
-  if(s1 == HIGH &&s1 != laststate1){
+  if (s1 == HIGH && s1 != laststate1) {
     count++;
     shiftNum(count);
   }
-  if(s2 == HIGH &&s1 != laststate2){
+  if (s2 == HIGH && s2 != laststate2) {
     count++;
     shiftNum(count);
   }
-  
+
   laststate1 = s1;
   laststate2 = s2;
 }
@@ -104,4 +104,3 @@ void shiftNum(uint32_t num) {
   }
   digitalWrite(LatchPin, HIGH);
 }
-
