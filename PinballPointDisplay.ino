@@ -7,6 +7,7 @@ int NumberOfDisplays = 3;
 #define sol2 6
 #define sol3 13
 
+int debounce = 500; //in milliseconds
 
 byte nums[] = { B01110111,
                 B00010100,
@@ -69,15 +70,18 @@ void setup() {
   //Serial.println((num%100 - num%10)/10);
   //Serial.println((num%1000 - num%100)/100);
 }
-
+int currentTime;
+int lastTime;
+bool lock = false;
 void loop() {
+  currentTime = millis();
   s1 = digitalRead(3);
   s2 = digitalRead(5);
   s3 = digitalRead(11);
 
   activateSolenoid(s1, sol1, false);
   activateSolenoid(s2, sol2, false);
-  activateSolenoid(s3, sol3, false);
+  activateSolenoid(s3, sol3, lock);
   if (s1 == HIGH && s1 != laststate1) {
     count++;
     shiftNum(count);
@@ -86,9 +90,16 @@ void loop() {
     count++;
     shiftNum(count);
   }
-  if (s3 == HIGH && s3 != laststate3) {
+  if (s3 == HIGH && s3 != laststate3 && lock == false) {
     count++;
     shiftNum(count);
+    lock = true;
+    lastTime = currentTime;
+  }
+  if(lock){
+    if(currentTime - lastTime == debounce){
+      lock = false;
+    }
   }
 
   laststate1 = s1;
