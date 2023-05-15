@@ -1,3 +1,11 @@
+/*
+  This code is very much a BETA version.
+  It is NOT complete and will probably need to be
+  tweaked a lot to work for you. Some of the bits
+  in this code are completely reduandant and were
+  just me messing around. Some bits can be
+  deleted as you see fit.
+*/
 int DataPin = 8;
 int LatchPin = 9;
 int ClockPin = 10;
